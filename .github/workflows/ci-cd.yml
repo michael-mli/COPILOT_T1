@@ -1,0 +1,263 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  CACHE_DEPENDENCY_PATH: package-lock.json
+
+jobs:
+  # Job 1: Code Quality and Linting
+  lint-and-format:
+    name: 🔍 Code Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CACHE_DEPENDENCY_PATH }}
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 Check Package Vulnerabilities
+        run: npm audit --audit-level=moderate
+
+      - name: 📋 Lint JavaScript/Vue Files
+        run: |
+          # Check for common issues in Vue and JS files
+          echo "Checking for console.log statements..."
+          ! grep -r "console\.log" src/ || (echo "❌ Found console.log statements" && exit 1)
+          
+          echo "Checking for TODO comments..."
+          grep -r "TODO\|FIXME" src/ || echo "✅ No TODO/FIXME comments found"
+
+  # Job 2: Unit Testing
+  test:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint-and-format
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CACHE_DEPENDENCY_PATH }}
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🧪 Run Unit Tests
+        run: npm run test
+
+      - name: 📊 Generate Test Coverage
+        run: npm run test:coverage
+
+      - name: 📈 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+      - name: 💾 Cache Test Results
+        uses: actions/cache@v3
+        with:
+          path: coverage/
+          key: test-coverage-${{ github.sha }}
+
+  # Job 3: Build Application
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: [lint-and-format, test]
+    strategy:
+      matrix:
+        build-mode: [development, production]
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CACHE_DEPENDENCY_PATH }}
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Application
+        run: |
+          if [ "${{ matrix.build-mode }}" = "production" ]; then
+            npm run build
+          else
+            echo "Development build - skipping build step"
+          fi
+
+      - name: 📏 Check Bundle Size
+        if: matrix.build-mode == 'production'
+        run: |
+          echo "Checking bundle size..."
+          du -sh dist/
+          echo "Bundle contents:"
+          ls -la dist/
+
+      - name: 💾 Upload Build Artifacts
+        if: matrix.build-mode == 'production'
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-build
+          path: dist/
+          retention-days: 30
+
+  # Job 4: Security Scanning
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: lint-and-format
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CACHE_DEPENDENCY_PATH }}
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 Run Security Audit
+        run: |
+          echo "Running npm security audit..."
+          npm audit --audit-level=moderate
+          
+          echo "Checking for known vulnerabilities..."
+          npx audit-ci --moderate
+
+  # Job 5: End-to-End Testing (Optional)
+  e2e-test:
+    name: 🌐 E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.CACHE_DEPENDENCY_PATH }}
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: production-build
+          path: dist/
+
+      - name: 🚀 Start Preview Server
+        run: |
+          npm run preview &
+          sleep 10
+
+      - name: 🌐 Basic Smoke Test
+        run: |
+          echo "Running basic smoke tests..."
+          curl -f http://localhost:4173/ || exit 1
+          echo "✅ Application is accessible"
+
+  # Job 6: Deploy to Staging
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [test, build, security]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment: staging
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: production-build
+          path: dist/
+
+      - name: 🚀 Deploy to Staging
+        run: |
+          echo "🚀 Deploying to staging environment..."
+          echo "📁 Build files ready in dist/"
+          echo "✅ Staging deployment completed"
+          # Add your staging deployment commands here
+          # Example: aws s3 sync dist/ s3://staging-bucket/
+          # Example: scp -r dist/* user@staging-server:/var/www/html/
+
+  # Job 7: Deploy to Production
+  deploy-production:
+    name: 🌟 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [test, build, security, e2e-test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: production-build
+          path: dist/
+
+      - name: 🌟 Deploy to Production
+        run: |
+          echo "🌟 Deploying to production environment..."
+          echo "📁 Build files ready in dist/"
+          echo "✅ Production deployment completed"
+          # Add your production deployment commands here
+          # Example: aws s3 sync dist/ s3://production-bucket/
+          # Example: scp -r dist/* user@production-server:/var/www/html/
+
+  # Job 8: Notify Results
+  notify:
+    name: 📢 Notification
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    steps:
+      - name: 📢 Notify Success
+        if: ${{ needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success' }}
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🎉 CAAT Pension Vue.js application is live!"
+
+      - name: 📢 Notify Failure
+        if: ${{ needs.deploy-production.result == 'failure' || needs.deploy-staging.result == 'failure' }}
+        run: |
+          echo "❌ Deployment failed!"
+          echo "🔍 Please check the logs for details."

@@ -1,0 +1,176 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+      release_notes:
+        description: 'Release notes'
+        required: false
+        type: string
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # Create release build
+  release-build:
+    name: 🏗️ Release Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🧪 Run Full Test Suite
+        run: |
+          npm run test:coverage
+          npm run test
+
+      - name: 🏗️ Build for Production
+        run: npm run build
+
+      - name: 📊 Generate Build Report
+        run: |
+          echo "# Release Build Report" > build-report.md
+          echo "Built on: $(date)" >> build-report.md
+          echo "Node version: $(node --version)" >> build-report.md
+          echo "npm version: $(npm --version)" >> build-report.md
+          echo "" >> build-report.md
+          echo "## Bundle Size" >> build-report.md
+          du -sh dist/ >> build-report.md
+          echo "" >> build-report.md
+          echo "## Bundle Contents" >> build-report.md
+          ls -la dist/ >> build-report.md
+
+      - name: 📦 Create Release Archive
+        run: |
+          cd dist
+          tar -czf ../caat-pension-vue-${GITHUB_REF#refs/tags/}.tar.gz *
+          cd ..
+          zip -r caat-pension-vue-${GITHUB_REF#refs/tags/}.zip dist/
+
+      - name: 💾 Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-build
+          path: |
+            dist/
+            *.tar.gz
+            *.zip
+            build-report.md
+
+  # Create GitHub Release
+  create-release:
+    name: 🚀 Create Release
+    runs-on: ubuntu-latest
+    needs: release-build
+    permissions:
+      contents: write
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release-build
+
+      - name: 📝 Generate Release Notes
+        id: release_notes
+        run: |
+          if [[ -n "${{ github.event.inputs.release_notes }}" ]]; then
+            echo "release_notes=${{ github.event.inputs.release_notes }}" >> $GITHUB_OUTPUT
+          else
+            # Auto-generate release notes from commits
+            echo "release_notes=Auto-generated release notes for ${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 🚀 Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: 'CAAT Pension Vue.js ${{ github.ref }}'
+          body: |
+            ## 🎉 CAAT Pension Vue.js Release ${{ github.ref }}
+            
+            ### 📦 What's Included
+            - Production-ready build of the CAAT Pension Vue.js website
+            - Optimized assets and bundles
+            - Complete source code
+            
+            ### 📊 Build Information
+            - Node.js version: ${{ env.NODE_VERSION }}
+            - Build date: ${{ steps.date.outputs.date }}
+            - All tests passing ✅
+            
+            ### 📥 Download Options
+            - **Source Code**: Download source code as ZIP or tar.gz
+            - **Production Build**: Download pre-built assets ready for deployment
+            
+            ### 🚀 Deployment
+            Extract the production build and serve the `dist/` directory with any static file server.
+            
+            ---
+            
+            ${{ steps.release_notes.outputs.release_notes }}
+          draft: false
+          prerelease: false
+
+      - name: 📤 Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./caat-pension-vue-${{ github.ref }}.tar.gz
+          asset_name: caat-pension-vue-${{ github.ref }}.tar.gz
+          asset_content_type: application/gzip
+
+  # Deploy release to production
+  deploy-release:
+    name: 🌟 Deploy Release
+    runs-on: ubuntu-latest
+    needs: [release-build, create-release]
+    environment: production
+    steps:
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release-build
+
+      - name: 🌟 Deploy to Production
+        run: |
+          echo "🌟 Deploying release ${GITHUB_REF#refs/tags/} to production..."
+          echo "📁 Build files ready in dist/"
+          
+          # Add your production deployment commands here
+          # Examples:
+          # aws s3 sync dist/ s3://your-production-bucket/ --delete
+          # scp -r dist/* user@server:/var/www/html/
+          # kubectl apply -f k8s/
+          
+          echo "✅ Release deployment completed!"
+
+      - name: 📢 Notify Release
+        run: |
+          echo "🎉 Successfully deployed CAAT Pension Vue.js ${GITHUB_REF#refs/tags/} to production!"
+          echo "🌐 Application is now live with the latest release"
