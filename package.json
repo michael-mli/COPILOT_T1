@@ -10,6 +10,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:unit": "cypress run --component",
+    "cypress:e2e": "cypress run --e2e",
+    "test:e2e": "start-server-and-test dev http://localhost:5173 cypress:e2e",
+    "test:component": "cypress run --component",
     "lint": "echo 'Checking Vue and JS files...' && find src -name '*.vue' -o -name '*.js' | head -10",
     "lint:fix": "echo 'Linting would auto-fix issues...'",
     "format": "echo 'Code formatting would be applied...'",
@@ -24,7 +30,11 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/test-utils": "^2.4.6",
+    "cypress": "^13.6.4",
+    "@cypress/vue": "^6.0.0",
+    "@cypress/vite-dev-server": "^5.0.7",
     "jsdom": "^26.1.0",
+    "start-server-and-test": "^2.0.3",
     "vite": "^5.4.19",
     "vitest": "^3.1.4"
   }

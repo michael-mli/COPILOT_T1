@@ -42,6 +42,7 @@ The CAAT Pension Vue.js project is a modern, responsive website that replicates 
 
 ## 🏗️ Architecture & Structure
 
+
 ### Project Directory Structure
 
 ```

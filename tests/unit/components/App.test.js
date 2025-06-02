@@ -7,6 +7,10 @@ import AppFooter from '../../../src/components/AppFooter.vue'
 import Home from '../../../src/components/Home.vue'
 import About from '../../../src/components/About.vue'
 import Services from '../../../src/components/Services.vue'
+import Members from '../../../src/components/Members.vue'
+import Employers from '../../../src/components/Employers.vue'
+import News from '../../../src/components/News.vue'
+import Contact from '../../../src/components/Contact.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,6 +18,10 @@ const router = createRouter({
     { path: '/', component: Home },
     { path: '/about', component: About },
     { path: '/services', component: Services },
+    { path: '/members', component: Members },
+    { path: '/employers', component: Employers },
+    { path: '/news', component: News },
+    { path: '/contact', component: Contact },
   ]
 })
 
@@ -119,6 +127,27 @@ describe('App.vue', () => {
     await wrapper.vm.$nextTick()
     
     // Should still maintain layout
+    expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
+    expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
+    
+    // Test new routes
+    await router.push('/members')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
+    expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
+    
+    await router.push('/employers')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
+    expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
+    
+    await router.push('/news')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
+    expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
+    
+    await router.push('/contact')
+    await wrapper.vm.$nextTick()
     expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
     expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
   })
