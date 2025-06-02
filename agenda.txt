@@ -1,0 +1,5 @@
+-	Documentation
+-	Diagrams, wiki – etc
+-	Dev Unit testing
+-	Actions – for testing embedded in pipelines
+-	Other features ( as much as the time will permit)
