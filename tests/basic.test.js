@@ -13,4 +13,10 @@ describe('Basic Test Suite', () => {
     const arr = [1, 2, 3]
     expect(arr).toHaveLength(3)
   })
+
+  it('should test object properties', () => {
+    const obj = { name: 'CAAT', type: 'pension' }
+    expect(obj).toHaveProperty('name')
+    expect(obj.name).toBe('CAAT')
+  })
 })

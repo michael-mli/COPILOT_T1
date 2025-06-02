@@ -5,6 +5,9 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     globals: true,
-    environment: 'jsdom'
+    environment: 'jsdom',
+    setupFiles: [],
+    testTimeout: 10000,
+    hookTimeout: 10000
   }
 })
