@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAAT Pension Vue.js Codebase Architecture</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #004d9f;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #0066cc;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 10px;
+        }
+        .diagram-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #00a86b;
+        }
+        .description {
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #003366;
+        }
+        .legend {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #004d9f;
+        }
+        .legend ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .legend li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CAAT Pension Vue.js Codebase Architecture</h1>
+        
+        <div class="description">
+            This diagram illustrates the architecture and component relationships of the CAAT Pension Vue.js website, 
+            showing how the application is structured with Vue 3, Vite, and Vue Router.
+        </div>
+
+        <div class="diagram-section">
+            <h2>📁 Project Structure & Dependencies</h2>
+            <div class="mermaid">
+                graph TB
+                    subgraph "Build Tools"
+                        Vite[Vite<br/>Build Tool & Dev Server]
+                        Node[Node.js Runtime]
+                        NPM[NPM Package Manager]
+                    end
+                    
+                    subgraph "Core Dependencies"
+                        Vue3[Vue 3<br/>Progressive Framework]
+                        VueRouter[Vue Router<br/>Client-side Routing]
+                        CSS3[CSS3<br/>Styling & Responsive Design]
+                    end
+                    
+                    subgraph "Project Files"
+                        PkgJson[package.json<br/>Dependencies & Scripts]
+                        ViteConfig[vite.config.js<br/>Build Configuration]
+                        IndexHTML[index.html<br/>Entry Point]
+                        README[README.md<br/>Documentation]
+                    end
+                    
+                    NPM --> PkgJson
+                    Vite --> ViteConfig
+                    Node --> Vite
+                    Vue3 --> VueRouter
+                    IndexHTML --> Vue3
+                    
+                    style Vite fill:#646cff,stroke:#333,stroke-width:2px,color:#fff
+                    style Vue3 fill:#4fc08d,stroke:#333,stroke-width:2px,color:#fff
+                    style VueRouter fill:#4fc08d,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>🏗️ Application Architecture</h2>
+            <div class="mermaid">
+                graph TD
+                    Browser[Web Browser] --> IndexHTML[index.html]
+                    IndexHTML --> MainJS[src/main.js<br/>Application Bootstrap]
+                    
+                    MainJS --> Vue3[Vue 3 Instance]
+                    MainJS --> Router[Vue Router]
+                    MainJS --> AppVue[App.vue<br/>Root Component]
+                    MainJS --> GlobalCSS[src/style.css<br/>Global Styles]
+                    
+                    Vue3 --> AppVue
+                    Router --> AppVue
+                    
+                    AppVue --> Header[AppHeader.vue<br/>Navigation Component]
+                    AppVue --> RouterView[router-view<br/>Dynamic Content]
+                    AppVue --> Footer[AppFooter.vue<br/>Footer Component]
+                    
+                    RouterView --> Home[Home.vue<br/>Landing Page]
+                    
+                    style Browser fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+                    style Vue3 fill:#4fc08d,stroke:#333,stroke-width:2px,color:#fff
+                    style Router fill:#4fc08d,stroke:#333,stroke-width:2px,color:#fff
+                    style AppVue fill:#42b883,stroke:#333,stroke-width:2px,color:#fff
+                    style Home fill:#42b883,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>🧩 Component Hierarchy</h2>
+            <div class="mermaid">
+                graph TD
+                    AppVue[App.vue<br/>🏠 Root Component]
+                    
+                    AppVue --> Header[AppHeader.vue<br/>🧭 Navigation Bar]
+                    AppVue --> RouterView[router-view<br/>📄 Page Content]
+                    AppVue --> Footer[AppFooter.vue<br/>📋 Site Footer]
+                    
+                    RouterView --> Home[Home.vue<br/>🏡 Home Page]
+                    
+                    subgraph "AppHeader Features"
+                        Header --> Brand[CAAT Logo & Branding]
+                        Header --> NavMenu[Navigation Menu]
+                        Header --> MobileToggle[Mobile Hamburger Menu]
+                    end
+                    
+                    subgraph "Home Page Sections"
+                        Home --> Hero[Hero Section<br/>Main Banner & CTA]
+                        Home --> CEOMsg[CEO Message<br/>Leadership Quote]
+                        Home --> News[What's New<br/>News Grid]
+                        Home --> Services[Services Overview<br/>Service Cards]
+                        Home --> QuickAccess[Quick Access<br/>Member/Employer Links]
+                    end
+                    
+                    subgraph "AppFooter Sections"
+                        Footer --> FooterLinks[Quick Links]
+                        Footer --> Contact[Contact Information]
+                        Footer --> Social[Social Media Links]
+                        Footer --> Legal[Legal & Privacy Links]
+                    end
+                    
+                    style AppVue fill:#42b883,stroke:#333,stroke-width:3px,color:#fff
+                    style Header fill:#004d9f,stroke:#333,stroke-width:2px,color:#fff
+                    style Footer fill:#004d9f,stroke:#333,stroke-width:2px,color:#fff
+                    style Home fill:#0066cc,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>🎨 Styling Architecture</h2>
+            <div class="mermaid">
+                graph LR
+                    subgraph "Global Styles"
+                        GlobalCSS[src/style.css<br/>🎨 Global Styles]
+                        CSSVars[CSS Custom Properties<br/>Color Scheme & Typography]
+                        Responsive[Responsive Breakpoints<br/>Mobile-First Design]
+                    end
+                    
+                    subgraph "Component Styles"
+                        HeaderCSS[AppHeader Scoped Styles<br/>Navigation & Mobile Menu]
+                        HomeCSS[Home Scoped Styles<br/>Sections & Layout]
+                        FooterCSS[AppFooter Scoped Styles<br/>Footer Layout]
+                    end
+                    
+                    subgraph "Design System"
+                        Colors[Color Palette<br/>Primary: #004d9f<br/>Secondary: #0066cc<br/>Accent: #00a86b]
+                        Typography[Typography<br/>Inter Font Family<br/>Responsive Sizing]
+                        Components[UI Components<br/>Buttons, Cards, Grid]
+                    end
+                    
+                    GlobalCSS --> CSSVars
+                    GlobalCSS --> Responsive
+                    CSSVars --> Colors
+                    CSSVars --> Typography
+                    
+                    HeaderCSS --> GlobalCSS
+                    HomeCSS --> GlobalCSS
+                    FooterCSS --> GlobalCSS
+                    
+                    style GlobalCSS fill:#ff9f43,stroke:#333,stroke-width:2px,color:#fff
+                    style Colors fill:#4834d4,stroke:#333,stroke-width:2px,color:#fff
+                    style Typography fill:#686de0,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>🔄 Data Flow & State Management</h2>
+            <div class="mermaid">
+                sequenceDiagram
+                    participant User
+                    participant Browser
+                    participant Router
+                    participant App
+                    participant Header
+                    participant Home
+                    participant Footer
+                    
+                    User->>Browser: Load Website
+                    Browser->>App: Initialize Vue App
+                    App->>Router: Setup Routes
+                    App->>Header: Mount Navigation
+                    App->>Home: Load Home Page
+                    App->>Footer: Mount Footer
+                    
+                    User->>Header: Click Navigation Link
+                    Header->>Router: Navigate to Route
+                    Router->>App: Update router-view
+                    App->>Home: Re-render Component
+                    
+                    User->>Header: Toggle Mobile Menu
+                    Header->>Header: Update isMenuOpen State
+                    Header->>Header: Show/Hide Menu
+                    
+                    Note over App,Footer: All components use scoped styles<br/>and responsive design principles
+            </div>
+        </div>
+
+        <div class="diagram-section">
+            <h2>⚡ Development Workflow</h2>
+            <div class="mermaid">
+                graph LR
+                    subgraph "Development"
+                        Dev[Developer]
+                        IDE[VS Code IDE]
+                        Files[Vue/JS/CSS Files]
+                    end
+                    
+                    subgraph "Build Process"
+                        Vite[Vite Dev Server<br/>HMR & Fast Reload]
+                        Compile[Component Compilation<br/>SFC Processing]
+                        Bundle[Module Bundling<br/>Dependency Resolution]
+                    end
+                    
+                    subgraph "Output"
+                        DevServer[Development Server<br/>localhost:5173]
+                        ProdBuild[Production Build<br/>Optimized Assets]
+                        Browser[Live Preview<br/>Hot Module Replacement]
+                    end
+                    
+                    Dev --> IDE
+                    IDE --> Files
+                    Files --> Vite
+                    Vite --> Compile
+                    Compile --> Bundle
+                    Bundle --> DevServer
+                    Bundle --> ProdBuild
+                    DevServer --> Browser
+                    Browser --> Dev
+                    
+                    style Vite fill:#646cff,stroke:#333,stroke-width:2px,color:#fff
+                    style DevServer fill:#00d084,stroke:#333,stroke-width:2px,color:#fff
+                    style Browser fill:#ff6b6b,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>🔍 Legend & Key Information</h3>
+            <ul>
+                <li><strong>Vue 3:</strong> Progressive JavaScript framework for building user interfaces</li>
+                <li><strong>Vite:</strong> Fast build tool and development server with HMR (Hot Module Replacement)</li>
+                <li><strong>Vue Router:</strong> Official router for Vue.js enabling SPA navigation</li>
+                <li><strong>Single File Components (SFC):</strong> Vue components with template, script, and style in one file</li>
+                <li><strong>Scoped Styles:</strong> CSS styles that only apply to the component they're defined in</li>
+                <li><strong>Responsive Design:</strong> Mobile-first approach with breakpoint at 768px</li>
+                <li><strong>CSS Custom Properties:</strong> CSS variables for consistent theming and design system</li>
+                <li><strong>Professional Color Scheme:</strong> CAAT-inspired blues and greens for financial services</li>
+            </ul>
+        </div>
+
+        <div class="description">
+            <strong>Project Summary:</strong> This Vue.js application replicates the CAAT Pension website with modern 
+            architecture, responsive design, and professional styling. The codebase follows Vue.js best practices 
+            with component-based architecture, scoped styling, and efficient build tooling via Vite.
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            },
+            sequence: {
+                diagramMarginX: 50,
+                diagramMarginY: 10,
+                actorMargin: 50,
+                width: 150,
+                height: 65,
+                boxMargin: 10,
+                boxTextMargin: 5,
+                noteMargin: 10,
+                messageMargin: 35
+            }
+        });
+    </script>
+</body>
+</html>
