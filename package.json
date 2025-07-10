@@ -30,7 +30,7 @@
   "devDependencies": {
     "@cypress/vite-dev-server": "^5.0.7",
     "@cypress/vue": "^6.0.0",
-    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue": "^5.2.4",
     "@vue/test-utils": "^2.4.6",
     "cypress": "^13.6.4",
     "jsdom": "^26.1.0",
