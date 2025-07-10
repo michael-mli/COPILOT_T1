@@ -271,12 +271,12 @@ export default {
 }
 
 .news-image .placeholder-image {
-  background-color: var(--gray-medium);
+  background-color: #000000;
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-dark);
+  color: #ffffff;
 }
 
 .news-content {
@@ -294,7 +294,7 @@ export default {
 }
 
 .read-more {
-  color: var(--green-accent);
+  color: #000000;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;

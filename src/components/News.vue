@@ -204,13 +204,13 @@ export default {
 .placeholder-image {
   width: 100%;
   height: 100%;
-  background-color: #1a365d;
+  background-color: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
   font-weight: 600;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  text-shadow: none;
 }
 
 .article-content {
@@ -242,7 +242,7 @@ export default {
 }
 
 .read-more {
-  color: #0d2238;
+  color: #000000;
   text-decoration: underline;
   font-weight: 700;
   transition: color 0.3s ease;
