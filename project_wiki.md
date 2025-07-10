@@ -717,6 +717,63 @@ EXPOSE 3000
 CMD ["npx", "serve", "-s", "dist", "-l", "3000"]
 ```
 
+### CI/CD Pipeline
+
+The project utilizes GitHub Actions for its CI/CD pipeline. The pipeline is triggered on pushes and pull requests to the main and develop branches. Below is a diagram illustrating the flow and dependencies of the jobs:
+
+```mermaid
+graph TD
+    subgraph "Start"
+        Trigger((Git Push/PR))
+    end
+
+    subgraph "Phase 1: Validation"
+        Lint["lint-and-format<br/>Code Quality"]
+        Test["test<br/>Unit Tests"]
+    end
+
+    subgraph "Phase 2: Build & Scan"
+        Build["build<br/>Production Build"]
+        Security["security<br/>Security Scans"]
+    end
+
+    subgraph "Phase 3: Gated Deployments"
+        Staging["deploy-staging<br/>(on develop)"]
+        E2E["e2e-test<br/>(on main)"]
+    end
+
+    subgraph "Phase 4: Production"
+        Production["deploy-production<br/>(on main)"]
+    end
+
+    Trigger --> Lint
+    Lint --> Test
+    Test --> Build
+    Test --> Security
+
+    Build --> Staging
+    Security --> Staging
+    Test --> Staging
+
+    Build --> E2E
+    Security --> E2E
+    Test --> E2E
+    
+    E2E --> Production
+    Build --> Production
+    Security --> Production
+    Test --> Production
+
+    style Trigger fill:#f9f,stroke:#333,stroke-width:2px
+    style Lint fill:#bbf,stroke:#333,stroke-width:2px
+    style Test fill:#bfb,stroke:#333,stroke-width:2px
+    style Build fill:#fbb,stroke:#333,stroke-width:2px
+    style Security fill:#fbf,stroke:#333,stroke-width:2px
+    style Staging fill:#ffb,stroke:#333,stroke-width:2px
+    style E2E fill:#bff,stroke:#333,stroke-width:2px
+    style Production fill:#ffb,stroke:#333,stroke-width:2px
+```
+
 ---
 
 ## 🔧 Troubleshooting
