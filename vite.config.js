@@ -18,7 +18,11 @@ export default defineConfig({
         'tests/',
         'dist/',
         '**/*.test.js',
-        '**/*.spec.js'
+        '**/*.spec.js',
+        'src/main.js',
+        '.eslintrc.js',
+        'vite.config.js',
+        '**/*.config.js'
       ]
     }
   }
