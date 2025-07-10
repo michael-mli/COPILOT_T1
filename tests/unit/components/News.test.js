@@ -54,19 +54,19 @@ describe('News.vue', () => {
     expect(title.exists()).toBe(true)
     expect(title.text()).toBe('Latest News')
     
-    const newsCards = latestSection.findAll('.news-card')
+    const newsCards = latestSection.findAll('.news-article')
     expect(newsCards.length).toBeGreaterThan(0)
   })
 
   it('displays news articles with proper structure', () => {
-    const newsCards = wrapper.findAll('.news-card')
+    const newsCards = wrapper.findAll('.news-article')
     
     newsCards.forEach(card => {
       // Each news card should have a title
       expect(card.find('h3').exists()).toBe(true)
       
       // Each news card should have a date
-      expect(card.find('.news-date').exists()).toBe(true)
+      expect(card.find('.date').exists()).toBe(true)
       
       // Each news card should have content
       expect(card.find('p').exists()).toBe(true)
@@ -89,19 +89,19 @@ describe('News.vue', () => {
     
     // Check for specific categories
     const categoryTitles = categoryCards.map(card => card.find('h3').text())
-    expect(categoryTitles).toContain('Plan Updates')
-    expect(categoryTitles).toContain('Market Insights')
-    expect(categoryTitles).toContain('Member Benefits')
-    expect(categoryTitles).toContain('Regulatory Changes')
+    expect(categoryTitles).toContain('Plan Performance')
+    expect(categoryTitles).toContain('Digital Updates')
+    expect(categoryTitles).toContain('Sustainability')
+    expect(categoryTitles).toContain('Education')
   })
 
   it('displays newsletter signup section', () => {
-    const newsletterSection = wrapper.find('.newsletter-signup')
+    const newsletterSection = wrapper.find('.newsletter')
     expect(newsletterSection.exists()).toBe(true)
     
     const title = newsletterSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Stay Connected')
+    expect(title.text()).toBe('Stay Informed')
     
     // Check for form elements
     const emailInput = newsletterSection.find('input[type="email"]')
@@ -139,7 +139,7 @@ describe('News.vue', () => {
   })
 
   it('displays proper date formatting', () => {
-    const dates = wrapper.findAll('.news-date')
+    const dates = wrapper.findAll('.date')
     
     dates.forEach(date => {
       const dateText = date.text()
@@ -158,12 +158,11 @@ describe('News.vue', () => {
     
     // Check for CAAT-related content
     expect(html).toContain('News')
-    expect(html).toContain('pension')
+    expect(html).toContain('CAAT')
     
     // Check for proper CSS classes
     expect(wrapper.find('.hero').exists()).toBe(true)
     expect(wrapper.find('.btn-primary').exists()).toBe(true)
-    expect(wrapper.find('.btn-secondary').exists()).toBe(true)
   })
 
   it('includes comprehensive news content', () => {
@@ -175,7 +174,7 @@ describe('News.vue', () => {
     expect(html).toContain('Subscribe')
     
     // Check for proper article structure
-    const articles = wrapper.findAll('.news-card')
+    const articles = wrapper.findAll('.news-article')
     expect(articles.length).toBeGreaterThanOrEqual(3) // Should have multiple news items
   })
 

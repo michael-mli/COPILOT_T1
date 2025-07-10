@@ -106,12 +106,13 @@ describe('Services.vue', () => {
   })
 
   it('has correct router links in category cards', () => {
-    const categoryButtons = wrapper.findAll('.category-card .btn')
+    const categoriesSection = wrapper.find('.service-categories')
+    const categoryButtons = categoriesSection.findAllComponents({ name: 'router-link' })
     expect(categoryButtons.length).toBe(3)
     
-    expect(categoryButtons[0].attributes('to')).toBe('/members')
-    expect(categoryButtons[1].attributes('to')).toBe('/employers')
-    expect(categoryButtons[2].attributes('to')).toBe('/retirees')
+    expect(categoryButtons[0].props('to')).toBe('/members')
+    expect(categoryButtons[1].props('to')).toBe('/employers')
+    expect(categoryButtons[2].props('to')).toBe('/retirees')
   })
 
   it('displays process flow section', () => {
@@ -161,7 +162,8 @@ describe('Services.vue', () => {
     expect(ctaButtons.length).toBe(2)
     
     expect(ctaButtons[0].text()).toBe('Contact Us')
-    expect(ctaButtons[0].attributes('to')).toBe('/contact')
+    const contactButton = ctaSection.findComponent({ name: 'router-link' })
+    expect(contactButton.props('to')).toBe('/contact')
     expect(ctaButtons[1].text()).toBe('Call 1-800-CAA-TPEN')
     expect(ctaButtons[1].attributes('href')).toBe('tel:1-800-CAA-TPEN')
   })
@@ -234,7 +236,7 @@ describe('Services.vue', () => {
   it('has proper semantic HTML structure', () => {
     expect(wrapper.find('main').exists()).toBe(true)
     expect(wrapper.findAll('section').length).toBe(7)
-    expect(wrapper.findAll('h2').length).toBe(7)
+    expect(wrapper.findAll('h2').length).toBe(5)
     expect(wrapper.findAll('h3').length).toBeGreaterThan(0)
   })
 

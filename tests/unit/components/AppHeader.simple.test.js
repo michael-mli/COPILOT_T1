@@ -24,10 +24,16 @@ describe('AppHeader.vue', () => {
   it('should display CAAT brand name', () => {
     const wrapper = mount(AppHeader, {
       global: {
-        stubs: ['router-link']
+        stubs: {
+          'router-link': {
+            template: '<a><slot/></a>'
+          }
+        }
       }
     })
-    expect(wrapper.text()).toContain('CAAT')
+    const brandElement = wrapper.find('.navbar-brand')
+    expect(brandElement.exists()).toBe(true)
+    expect(brandElement.html()).toContain('CAAT')
   })
 
   it('should have navbar element', () => {

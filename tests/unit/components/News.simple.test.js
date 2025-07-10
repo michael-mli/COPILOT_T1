@@ -18,7 +18,7 @@ describe('News.vue - Simple Tests', () => {
     const wrapper = mount(News)
     const html = wrapper.html()
     
-    expect(html).toContain('News & Updates')
+    expect(html).toContain('News &amp; Updates')
     expect(html).toContain('Latest')
     expect(html).toContain('Category')
     expect(html).toContain('Newsletter')

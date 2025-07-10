@@ -47,16 +47,17 @@ describe('Home.vue', () => {
   })
 
   it('has correct action buttons in hero section', () => {
-    const actionButtons = wrapper.findAll('.hero-actions .btn')
-    expect(actionButtons.length).toBe(2)
+    const actionButtons = wrapper.findAllComponents({ name: 'router-link' })
+    const heroButtons = actionButtons.filter(btn => btn.classes().includes('btn'))
+    expect(heroButtons.length).toBe(2)
     
-    expect(actionButtons[0].text()).toBe('For Members')
-    expect(actionButtons[0].attributes('to')).toBe('/members')
-    expect(actionButtons[0].classes()).toContain('btn-primary')
+    expect(heroButtons[0].text()).toBe('For Members')
+    expect(heroButtons[0].props('to')).toBe('/members')
+    expect(heroButtons[0].classes()).toContain('btn-primary')
     
-    expect(actionButtons[1].text()).toBe('For Employers')
-    expect(actionButtons[1].attributes('to')).toBe('/employers')
-    expect(actionButtons[1].classes()).toContain('btn-secondary')
+    expect(heroButtons[1].text()).toBe('For Employers')
+    expect(heroButtons[1].props('to')).toBe('/employers')
+    expect(heroButtons[1].classes()).toContain('btn-secondary')
   })
 
   it('displays CEO message section', () => {

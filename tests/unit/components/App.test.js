@@ -47,7 +47,7 @@ describe('App.vue', () => {
   it('has the correct component structure', () => {
     expect(wrapper.findComponent(AppHeader).exists()).toBe(true)
     expect(wrapper.findComponent(AppFooter).exists()).toBe(true)
-    expect(wrapper.find('router-view').exists()).toBe(true)
+    expect(wrapper.findComponent({ name: 'router-view' }).exists()).toBe(true)
   })
 
   it('renders components in correct order', () => {

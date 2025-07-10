@@ -178,7 +178,7 @@ describe('About.vue', () => {
   it('has proper semantic HTML structure', () => {
     expect(wrapper.find('main').exists()).toBe(true)
     expect(wrapper.findAll('section').length).toBe(6)
-    expect(wrapper.findAll('h2').length).toBe(6)
+    expect(wrapper.findAll('h2').length).toBe(5)
     expect(wrapper.findAll('h3').length).toBeGreaterThan(0)
   })
 

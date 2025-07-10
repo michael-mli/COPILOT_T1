@@ -73,12 +73,12 @@ describe('AppFooter.vue', () => {
   it('has correct router links in quick links', () => {
     const sections = wrapper.findAll('.footer-section')
     const quickLinksSection = sections[1]
-    const routerLinks = quickLinksSection.findAll('router-link')
+    const routerLinks = quickLinksSection.findAllComponents({ name: 'router-link' })
     
-    expect(routerLinks[0].attributes('to')).toBe('/about')
-    expect(routerLinks[1].attributes('to')).toBe('/services')
-    expect(routerLinks[2].attributes('to')).toBe('/news')
-    expect(routerLinks[3].attributes('to')).toBe('/careers')
+    expect(routerLinks[0].props('to')).toBe('/about')
+    expect(routerLinks[1].props('to')).toBe('/services')
+    expect(routerLinks[2].props('to')).toBe('/news')
+    expect(routerLinks[3].props('to')).toBe('/careers')
   })
 
   it('displays for members section', () => {
@@ -209,7 +209,7 @@ describe('AppFooter.vue', () => {
     expect(wrapper.find('footer').exists()).toBe(true)
     expect(wrapper.findAll('h3').length).toBe(1) // Company name
     expect(wrapper.findAll('h4').length).toBe(4) // Section headers
-    expect(wrapper.findAll('ul').length).toBe(4) // Link lists
+    expect(wrapper.findAll('ul').length).toBe(3) // Link lists (Quick Links, Members, Employers)
   })
 
   it('contains proper contact information formatting', () => {

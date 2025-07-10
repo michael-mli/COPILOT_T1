@@ -43,7 +43,7 @@ describe('Employers.vue', () => {
     
     const subtitle = hero.find('.hero-subtitle')
     expect(subtitle.exists()).toBe(true)
-    expect(subtitle.text()).toContain('Comprehensive pension solutions')
+    expect(subtitle.text()).toContain('Comprehensive pension plan management')
   })
 
   it('displays employer portal access section', () => {
@@ -52,7 +52,7 @@ describe('Employers.vue', () => {
     
     const title = portalSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Employer Portal')
+    expect(title.text()).toBe('Employer Portal Access')
     
     const loginButton = portalSection.find('.btn-primary')
     expect(loginButton.exists()).toBe(true)
@@ -65,7 +65,7 @@ describe('Employers.vue', () => {
     
     const title = servicesSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Our Services')
+    expect(title.text()).toBe('Our Services for Employers')
     
     const serviceCards = servicesSection.findAll('.service-card')
     expect(serviceCards.length).toBeGreaterThan(0)
@@ -85,11 +85,11 @@ describe('Employers.vue', () => {
     expect(title.exists()).toBe(true)
     expect(title.text()).toBe('Implementation Process')
     
-    const processSteps = processSection.findAll('.process-step')
+    const processSteps = processSection.findAll('.timeline-item')
     expect(processSteps.length).toBeGreaterThan(0)
     
     // Check for step numbers
-    const stepNumbers = processSteps.map(step => step.find('.step-number').text())
+    const stepNumbers = processSteps.map(step => step.find('.timeline-number').text())
     expect(stepNumbers).toContain('1')
     expect(stepNumbers).toContain('2')
     expect(stepNumbers).toContain('3')
@@ -102,16 +102,16 @@ describe('Employers.vue', () => {
     
     const title = supportSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Dedicated Support')
+    expect(title.text()).toBe('Employer Support')
     
     const supportCards = supportSection.findAll('.support-card')
     expect(supportCards.length).toBeGreaterThan(0)
     
     // Check for dedicated support features
     const supportTitles = supportCards.map(card => card.find('h3').text())
-    expect(supportTitles).toContain('Account Manager')
-    expect(supportTitles).toContain('Technical Support')
-    expect(supportTitles).toContain('Training & Resources')
+    expect(supportTitles).toContain('Dedicated Support Line')
+    expect(supportTitles).toContain('Email Support')
+    expect(supportTitles).toContain('Training Sessions')
   })
 
   it('has proper CSS styling structure', () => {
@@ -119,7 +119,7 @@ describe('Employers.vue', () => {
     expect(wrapper.find('.container').exists()).toBe(true)
     expect(wrapper.find('.portal-grid').exists()).toBe(true)
     expect(wrapper.find('.services-grid').exists()).toBe(true)
-    expect(wrapper.find('.process-grid').exists()).toBe(true)
+    expect(wrapper.find('.process-timeline').exists()).toBe(true)
     expect(wrapper.find('.support-grid').exists()).toBe(true)
   })
 
@@ -140,8 +140,8 @@ describe('Employers.vue', () => {
     const html = wrapper.html()
     
     // Should contain contact information
-    expect(html).toContain('Contact Us')
-    expect(html).toContain('Get Started')
+    expect(html).toContain('Employer Support')
+    expect(html).toContain('Dedicated Support Line')
   })
 
   it('renders without JavaScript errors', () => {

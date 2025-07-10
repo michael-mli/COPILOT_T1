@@ -27,6 +27,6 @@ describe('AppFooter.vue', () => {
         stubs: ['router-link']
       }
     })
-    expect(wrapper.text()).toContain('2024')
+    expect(wrapper.text()).toContain('2025')
   })
 })

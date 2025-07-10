@@ -27,6 +27,6 @@ describe('Home.vue', () => {
         stubs: ['router-link']
       }
     })
-    expect(wrapper.text()).toContain('Welcome')
+    expect(wrapper.text()).toContain('Our purpose is to improve retirement security')
   })
 })

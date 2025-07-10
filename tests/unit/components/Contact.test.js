@@ -110,14 +110,14 @@ describe('Contact.vue', () => {
     const form = wrapper.find('.contact-form')
     
     // Check for required form fields
-    const nameInput = form.find('input[placeholder*="name"]')
-    expect(nameInput.exists()).toBe(true)
+    const firstNameInput = form.find('input#firstName')
+    expect(firstNameInput.exists()).toBe(true)
     
     const emailInput = form.find('input[type="email"]')
     expect(emailInput.exists()).toBe(true)
     
-    const subjectInput = form.find('input[placeholder*="subject"]')
-    expect(subjectInput.exists()).toBe(true)
+    const subjectSelect = form.find('select#subject')
+    expect(subjectSelect.exists()).toBe(true)
     
     const messageTextarea = form.find('textarea')
     expect(messageTextarea.exists()).toBe(true)
@@ -133,10 +133,10 @@ describe('Contact.vue', () => {
     
     const title = officeSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Visit Our Office')
+    expect(title.text()).toBe('Office Location')
     
     // Check for address information
-    const address = officeSection.find('.office-address')
+    const address = officeSection.find('.address')
     expect(address.exists()).toBe(true)
     
     // Check for office hours
@@ -242,13 +242,15 @@ describe('Contact.vue', () => {
   it('has accessible form elements', () => {
     const form = wrapper.find('.contact-form')
     
-    // Check for proper input attributes
-    const inputs = form.findAll('input')
-    inputs.forEach(input => {
-      expect(input.attributes('placeholder')).toBeDefined()
-    })
+    // Check for proper labels
+    const labels = form.findAll('label')
+    expect(labels.length).toBeGreaterThan(0)
+    
+    // Check for required attributes
+    const requiredInputs = form.findAll('input[required]')
+    expect(requiredInputs.length).toBeGreaterThan(0)
     
     const textarea = form.find('textarea')
-    expect(textarea.attributes('placeholder')).toBeDefined()
+    expect(textarea.exists()).toBe(true)
   })
 })

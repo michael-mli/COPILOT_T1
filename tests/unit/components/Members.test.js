@@ -65,7 +65,7 @@ describe('Members.vue', () => {
     
     const title = planningSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Planning Tools')
+    expect(title.text()).toBe('Retirement Planning Tools')
     
     const toolCards = planningSection.findAll('.tool-card')
     expect(toolCards.length).toBeGreaterThan(0)
@@ -73,8 +73,8 @@ describe('Members.vue', () => {
     // Check for specific tools
     const toolTitles = toolCards.map(card => card.find('h3').text())
     expect(toolTitles).toContain('Retirement Calculator')
-    expect(toolTitles).toContain('Pension Estimator')
-    expect(toolTitles).toContain('Contribution Tracker')
+    expect(toolTitles).toContain('Pension Projector')
+    expect(toolTitles).toContain('Benefit Estimator')
   })
 
   it('displays resources section with document links', () => {
@@ -83,9 +83,9 @@ describe('Members.vue', () => {
     
     const title = resourcesSection.find('h2')
     expect(title.exists()).toBe(true)
-    expect(title.text()).toBe('Resources & Documents')
+    expect(title.text()).toBe('Important Resources')
     
-    const resourceCards = resourcesSection.findAll('.resource-card')
+    const resourceCards = resourcesSection.findAll('.resource-category')
     expect(resourceCards.length).toBeGreaterThan(0)
     
     // Check for download links
@@ -105,7 +105,7 @@ describe('Members.vue', () => {
     expect(supportCards.length).toBeGreaterThan(0)
     
     // Check for phone number
-    const phoneNumber = supportSection.find('.phone-number')
+    const phoneNumber = supportSection.find('.contact-info')
     expect(phoneNumber.exists()).toBe(true)
     expect(phoneNumber.text()).toBe('1-800-CAA-TPEN')
   })

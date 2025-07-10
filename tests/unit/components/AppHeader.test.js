@@ -63,15 +63,15 @@ describe('AppHeader.vue', () => {
   })
 
   it('has correct router-link paths', () => {
-    const navLinks = wrapper.findAll('.navbar-nav router-link')
+    const navLinks = wrapper.find('.navbar-nav').findAllComponents({ name: 'router-link' })
     
-    expect(navLinks[0].attributes('to')).toBe('/')
-    expect(navLinks[1].attributes('to')).toBe('/about')
-    expect(navLinks[2].attributes('to')).toBe('/services')
-    expect(navLinks[3].attributes('to')).toBe('/members')
-    expect(navLinks[4].attributes('to')).toBe('/employers')
-    expect(navLinks[5].attributes('to')).toBe('/news')
-    expect(navLinks[6].attributes('to')).toBe('/contact')
+    expect(navLinks[0].props('to')).toBe('/')
+    expect(navLinks[1].props('to')).toBe('/about')
+    expect(navLinks[2].props('to')).toBe('/services')
+    expect(navLinks[3].props('to')).toBe('/members')
+    expect(navLinks[4].props('to')).toBe('/employers')
+    expect(navLinks[5].props('to')).toBe('/news')
+    expect(navLinks[6].props('to')).toBe('/contact')
   })
 
   it('shows mobile menu toggle button', () => {
