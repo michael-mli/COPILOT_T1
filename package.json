@@ -28,14 +28,14 @@
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@cypress/vite-dev-server": "^5.0.7",
+    "@cypress/vue": "^6.0.0",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/test-utils": "^2.4.6",
     "cypress": "^13.6.4",
-    "@cypress/vue": "^6.0.0",
-    "@cypress/vite-dev-server": "^5.0.7",
     "jsdom": "^26.1.0",
     "start-server-and-test": "^2.0.3",
-    "vite": "^5.4.19",
+    "vite": "^7.0.3",
     "vitest": "^3.1.4"
   }
 }
