@@ -210,6 +210,7 @@ export default {
   justify-content: center;
   color: #ffffff;
   font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .article-content {
@@ -241,7 +242,7 @@ export default {
 }
 
 .read-more {
-  color: #1a365d;
+  color: #0d2238;
   text-decoration: underline;
   font-weight: 700;
   transition: color 0.3s ease;
