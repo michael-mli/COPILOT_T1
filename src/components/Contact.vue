@@ -40,7 +40,8 @@
             <h3>Live Chat</h3>
             <p>Chat with our support team in real-time</p>
             <div class="contact-details">
-              <a href="#" class="btn btn-primary">Start Chat</a>
+              <a href="/support/chat" class="btn btn-primary" aria-describedby="chat-support-description">Start Chat</a>
+              <div id="chat-support-description" class="visually-hidden">Open live chat support with our team during business hours</div>
               <p class="availability">Available during business hours</p>
             </div>
           </div>
@@ -124,7 +125,8 @@
             <div class="directions">
               <h3>Getting Here</h3>
               <p>Located in the heart of Toronto's financial district, easily accessible by public transit and major highways.</p>
-              <a href="#" class="btn btn-secondary">Get Directions</a>
+              <a href="https://maps.google.com/maps?q=123+Bay+Street,+Toronto,+ON" class="btn btn-secondary" target="_blank" rel="noopener noreferrer" aria-describedby="directions-description">Get Directions</a>
+              <div id="directions-description" class="visually-hidden">Opens Google Maps in a new tab to get directions to our Toronto office</div>
             </div>
           </div>
 
@@ -132,7 +134,7 @@
             <div class="map-content">
               <h3>Interactive Map</h3>
               <p>Our office is conveniently located in downtown Toronto</p>
-              <div class="map-visual">🗺️</div>
+              <div class="map-visual" role="img" aria-label="Map showing our Toronto office location at 123 Bay Street">🗺️</div>
             </div>
           </div>
         </div>
@@ -162,7 +164,7 @@
           </div>
         </div>
         <div class="faq-link">
-          <a href="#" class="btn btn-secondary">View All FAQs</a>
+          <a href="/faq" class="btn btn-secondary">View All FAQs</a>
         </div>
       </div>
     </section>
@@ -182,8 +184,7 @@ export default {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
   padding: 4rem 0;
   text-align: center;
 }
@@ -192,11 +193,12 @@ export default {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  color: var(--primary-blue);
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
-  opacity: 0.9;
+  color: var(--gray-dark);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -377,6 +379,27 @@ export default {
 .faq-link {
   text-align: center;
   margin-top: 3rem;
+}
+
+/* Accessibility Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Enhanced focus styles */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
 }
 
 /* Responsive Design */

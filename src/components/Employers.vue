@@ -19,7 +19,8 @@
             <div class="portal-icon">🏛️</div>
             <h3>Employer Login</h3>
             <p>Access your employer dashboard to manage employee contributions, reports, and compliance requirements.</p>
-            <a href="#" class="btn btn-primary">Access Portal</a>
+            <a href="/employer-portal" class="btn btn-primary" aria-describedby="employer-portal-description">Access Portal</a>
+            <div id="employer-portal-description" class="visually-hidden">Access your employer dashboard to manage employee contributions and reports</div>
           </div>
           <div class="portal-card">
             <div class="portal-icon">📊</div>
@@ -186,7 +187,8 @@
             <div class="support-icon">🎓</div>
             <h3>Training Sessions</h3>
             <p>Schedule training for your HR team</p>
-            <a href="#" class="btn btn-secondary">Request Training</a>
+            <a href="/training-request" class="btn btn-secondary" aria-describedby="training-description">Request Training</a>
+            <div id="training-description" class="visually-hidden">Schedule training sessions for your HR team</div>
           </div>
         </div>
       </div>
@@ -207,8 +209,7 @@ export default {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
   padding: 4rem 0;
   text-align: center;
 }
@@ -217,11 +218,12 @@ export default {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  color: var(--primary-blue);
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
-  opacity: 0.9;
+  color: var(--gray-dark);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -430,6 +432,19 @@ export default {
 .hours {
   color: var(--gray-dark);
   font-size: 0.9rem;
+}
+
+/* Accessibility Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Responsive Design */

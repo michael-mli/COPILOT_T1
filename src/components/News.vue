@@ -17,7 +17,7 @@
         <div class="news-grid">
           <article class="news-article featured">
             <div class="article-image">
-              <div class="placeholder-image">Featured News Image</div>
+              <div class="placeholder-image" role="img" aria-label="Featured news article image - CAAT Pension Plan announces strong performance for 2024">Featured News Image</div>
             </div>
             <div class="article-content">
               <div class="article-meta">
@@ -32,7 +32,7 @@
 
           <article class="news-article">
             <div class="article-image">
-              <div class="placeholder-image">News Image 1</div>
+              <div class="placeholder-image" role="img" aria-label="News article image - Enhanced online portal now available">News Image 1</div>
             </div>
             <div class="article-content">
               <div class="article-meta">
@@ -47,7 +47,7 @@
 
           <article class="news-article">
             <div class="article-image">
-              <div class="placeholder-image">News Image 2</div>
+              <div class="placeholder-image" role="img" aria-label="News article image - Commitment to sustainable investing">News Image 2</div>
             </div>
             <div class="article-content">
               <div class="article-meta">
@@ -62,7 +62,7 @@
 
           <article class="news-article">
             <div class="article-image">
-              <div class="placeholder-image">News Image 3</div>
+              <div class="placeholder-image" role="img" aria-label="News article image - New retirement planning workshops">News Image 3</div>
             </div>
             <div class="article-content">
               <div class="article-meta">
@@ -118,8 +118,10 @@
           <h2>Stay Informed</h2>
           <p>Subscribe to our newsletter to receive the latest updates and important announcements directly in your inbox.</p>
           <form class="newsletter-form">
-            <input type="email" placeholder="Enter your email address" required>
+            <label for="newsletter-email" class="visually-hidden">Email address for newsletter subscription</label>
+            <input type="email" id="newsletter-email" placeholder="Enter your email address" required aria-describedby="newsletter-description">
             <button type="submit" class="btn btn-primary">Subscribe</button>
+            <div id="newsletter-description" class="visually-hidden">Subscribe to receive the latest updates and important announcements</div>
           </form>
         </div>
       </div>
@@ -140,8 +142,7 @@ export default {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
   padding: 4rem 0;
   text-align: center;
 }
@@ -150,11 +151,12 @@ export default {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  color: var(--primary-blue);
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
-  opacity: 0.9;
+  color: var(--gray-dark);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -202,11 +204,11 @@ export default {
 .placeholder-image {
   width: 100%;
   height: 100%;
-  background-color: var(--primary-blue);
+  background-color: #1a365d;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--white);
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -239,7 +241,7 @@ export default {
 }
 
 .read-more {
-  color: #000000;
+  color: #1a365d;
   text-decoration: underline;
   font-weight: 700;
   transition: color 0.3s ease;
@@ -323,6 +325,19 @@ export default {
 
 .newsletter-form button {
   white-space: nowrap;
+}
+
+/* Accessibility Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Responsive Design */

@@ -19,7 +19,8 @@
             <div class="portal-icon">🔐</div>
             <h3>Secure Login</h3>
             <p>Access your personal pension information, statements, and account details through our secure member portal.</p>
-            <a href="#" class="btn btn-primary">Login to Portal</a>
+            <a href="/member-portal" class="btn btn-primary" aria-describedby="portal-description">Login to Portal</a>
+            <div id="portal-description" class="visually-hidden">Access your personal pension information and account details</div>
           </div>
           <div class="portal-card">
             <div class="portal-icon">📋</div>
@@ -44,25 +45,25 @@
             <div class="tool-icon">🧮</div>
             <h3>Retirement Calculator</h3>
             <p>Estimate your retirement income and determine if you're on track to meet your retirement goals.</p>
-            <a href="#" class="tool-link">Use Calculator →</a>
+            <a href="/tools/retirement-calculator" class="tool-link">Use Calculator →</a>
           </div>
           <div class="tool-card">
             <div class="tool-icon">📈</div>
             <h3>Pension Projector</h3>
             <p>Project your future pension benefits based on different retirement scenarios and contribution levels.</p>
-            <a href="#" class="tool-link">Start Projection →</a>
+            <a href="/tools/pension-projector" class="tool-link">Start Projection →</a>
           </div>
           <div class="tool-card">
             <div class="tool-icon">💰</div>
             <h3>Benefit Estimator</h3>
             <p>Get an estimate of your monthly pension payments at different retirement ages.</p>
-            <a href="#" class="tool-link">Estimate Benefits →</a>
+            <a href="/tools/benefit-estimator" class="tool-link">Estimate Benefits →</a>
           </div>
           <div class="tool-card">
             <div class="tool-icon">📅</div>
             <h3>Retirement Planner</h3>
             <p>Create a comprehensive retirement plan with our step-by-step planning tool.</p>
-            <a href="#" class="tool-link">Start Planning →</a>
+            <a href="/tools/retirement-planner" class="tool-link">Start Planning →</a>
           </div>
         </div>
       </div>
@@ -129,7 +130,8 @@
             <div class="support-icon">💬</div>
             <h3>Live Chat</h3>
             <p>Chat with our support team in real-time</p>
-            <a href="#" class="btn btn-secondary">Start Chat</a>
+            <a href="/support/chat" class="btn btn-secondary" aria-describedby="chat-description">Start Chat</a>
+            <div id="chat-description" class="visually-hidden">Open live chat support with our team</div>
           </div>
         </div>
       </div>
@@ -150,8 +152,7 @@ export default {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-  color: var(--white);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--white) 100%);
   padding: 4rem 0;
   text-align: center;
 }
@@ -160,11 +161,12 @@ export default {
   font-size: 3rem;
   margin-bottom: 1rem;
   font-weight: 700;
+  color: var(--primary-blue);
 }
 
 .hero-subtitle {
   font-size: 1.3rem;
-  opacity: 0.9;
+  color: var(--gray-dark);
   max-width: 800px;
   margin: 0 auto;
 }
@@ -325,6 +327,19 @@ export default {
 .hours {
   color: var(--gray-dark);
   font-size: 0.9rem;
+}
+
+/* Accessibility Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Responsive Design */
