@@ -202,11 +202,11 @@ export default {
 .placeholder-image {
   width: 100%;
   height: 100%;
-  background-color: var(--gray-light);
+  background-color: var(--primary-blue);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray-dark);
+  color: var(--white);
   font-weight: 600;
 }
 
@@ -239,9 +239,9 @@ export default {
 }
 
 .read-more {
-  color: var(--primary-blue);
-  text-decoration: none;
-  font-weight: 600;
+  color: #000000;
+  text-decoration: underline;
+  font-weight: 700;
   transition: color 0.3s ease;
 }
 
